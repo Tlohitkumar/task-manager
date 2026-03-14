@@ -46,11 +46,12 @@ body {
   margin-bottom: 32px;
   animation: fadeDown .5s ease both;
 }
-.header-icon img {
-  width: 28px;
-  height: 28px;
+.header-icon {
+  font-size: 28px;
+  color: var(--accent);
   margin-bottom: 8px;
-  animation: spin 8s linear infinite;
+  display: inline-block;
+  animation: spin 6s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .header-title {
