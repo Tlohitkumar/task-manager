@@ -1,0 +1,288 @@
+/* ── Variables ── */
+:root {
+  --bg:        #f5f2ec;
+  --surface:   #ffffff;
+  --border:    #e4dfd6;
+  --text:      #1a1714;
+  --muted:     #9a9088;
+  --accent:    #c9572a;
+  --accent-lt: #f5e8e3;
+  --done-col:  #3a8a5a;
+  --done-lt:   #e4f2ea;
+  --pending:   #b07a20;
+  --shadow:    0 2px 16px rgba(0,0,0,.07);
+  --radius:    14px;
+  --font-head: 'DM Serif Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --transition: .18s ease;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ul { list-style: none; }
+button { cursor: pointer; font-family: var(--font-body); border: none; background: none; }
+
+/* ── Body ── */
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px 80px;
+  color: var(--text);
+}
+
+/* ── App Shell ── */
+.app-shell {
+  width: 100%;
+  max-width: 560px;
+}
+
+/* ── Header ── */
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+  animation: fadeDown .5s ease both;
+}
+.header-icon {
+  font-size: 28px;
+  color: var(--accent);
+  margin-bottom: 8px;
+  animation: spin 8s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.header-title {
+  font-family: var(--font-head);
+  font-size: 2.6rem;
+  letter-spacing: -.5px;
+  color: var(--text);
+  line-height: 1.1;
+}
+.header-sub {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: .9rem;
+  font-weight: 300;
+}
+
+/* ── Add Card ── */
+.add-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  animation: fadeDown .5s .1s ease both;
+}
+.input-row {
+  display: flex;
+  gap: 10px;
+}
+.task-input {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: .95rem;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  padding: 11px 15px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border var(--transition), box-shadow var(--transition);
+}
+.task-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-lt);
+}
+.task-input::placeholder { color: var(--muted); }
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: .9rem;
+  padding: 11px 20px;
+  border-radius: 9px;
+  transition: background var(--transition), transform var(--transition);
+  white-space: nowrap;
+}
+.add-btn:hover  { background: #b04820; transform: translateY(-1px); }
+.add-btn:active { transform: translateY(0); }
+.add-icon { font-size: 1.2rem; font-weight: 300; line-height: 1; }
+
+/* ── Stats Bar ── */
+.stats-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 4px 2px;
+  font-size: .82rem;
+  animation: fadeDown .5s .2s ease both;
+}
+.stat { font-weight: 500; color: var(--muted); }
+.done-stat    { color: var(--done-col); }
+.pending-stat { color: var(--pending); }
+.stat-divider { color: var(--border); font-size: .7rem; }
+
+/* ── Filters ── */
+.filters {
+  display: flex;
+  gap: 6px;
+  padding: 12px 0 16px;
+  animation: fadeDown .5s .25s ease both;
+}
+.filter-btn {
+  padding: 6px 16px;
+  border-radius: 99px;
+  font-size: .82rem;
+  font-weight: 500;
+  border: 1.5px solid var(--border);
+  color: var(--muted);
+  background: var(--surface);
+  transition: all var(--transition);
+}
+.filter-btn:hover  { border-color: var(--accent); color: var(--accent); }
+.filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ── Task List ── */
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Task Item ── */
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+  animation: slideIn .25s ease both;
+}
+.task-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0,0,0,.1);
+}
+.task-item.completed {
+  background: var(--done-lt);
+  border-color: #c4e0cf;
+}
+.task-item.hidden { display: none; }
+
+/* ── Checkbox ── */
+.task-check {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  transition: all var(--transition);
+  background: var(--bg);
+}
+.task-check:hover { border-color: var(--done-col); }
+.task-check:checked {
+  background: var(--done-col);
+  border-color: var(--done-col);
+}
+.task-check:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px; top: 1px;
+  width: 8px; height: 12px;
+  border: 2.5px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+/* ── Task Label ── */
+.task-label {
+  flex: 1;
+  font-size: .95rem;
+  font-weight: 400;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: color var(--transition);
+  word-break: break-word;
+}
+.task-item.completed .task-label {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+/* ── Delete Button ── */
+.delete-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 1rem;
+  transition: all var(--transition);
+  flex-shrink: 0;
+  opacity: 0;
+}
+.task-item:hover .delete-btn { opacity: 1; }
+.delete-btn:hover {
+  background: #fde8e8;
+  color: #c0392b;
+}
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center;
+  padding: 48px 0;
+  color: var(--muted);
+  animation: fadeDown .4s ease both;
+}
+.empty-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  opacity: .5;
+}
+.empty-state p {
+  font-size: .9rem;
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* ── Utility ── */
+.hidden { display: none !important; }
+
+/* ── Animations ── */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 400px) {
+  .header-title { font-size: 2rem; }
+  .add-btn span:last-child { display: none; }
+  .add-btn { padding: 11px 14px; }
+}
