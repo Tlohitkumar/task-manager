@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Task Manager</title>
-<link rel="icon" type="image/png" href="Logo.png">
+  <link rel="icon" type="image/png" href="Logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,11 +14,12 @@
   <div class="app-shell">
 
     <header class="header">
-     <div class="header-icon">✦</div>
-     <div class="header-icon"></div>
-
-      <h1 class="header-title">Task Manager</h1>
-      <p class="header-sub">Stay organised, get things done.</p>
+      <div class="header-eyebrow">
+        <img src="Logo.png" class="header-logo" alt="logo" />
+        Productivity System — v1.0
+      </div>
+      <h1 class="header-title">Task<span>.</span><br>Manager</h1>
+      <p class="header-sub">Stay organised, get things done</p>
     </header>
 
     <main class="main">
@@ -42,11 +43,18 @@
 
       <!-- Stats Bar -->
       <div class="stats-bar">
-        <span id="totalCount" class="stat">0 tasks</span>
-        <span class="stat-divider">·</span>
-        <span id="doneCount" class="stat done-stat">0 done</span>
-        <span class="stat-divider">·</span>
-        <span id="pendingCount" class="stat pending-stat">0 remaining</span>
+        <div class="stat">
+          <strong id="totalCount">0</strong>
+          Total
+        </div>
+        <div class="stat done-stat">
+          <strong id="doneCount">0</strong>
+          Done
+        </div>
+        <div class="stat">
+          <strong id="pendingCount">0</strong>
+          Remaining
+        </div>
       </div>
 
       <!-- Filter Tabs -->
@@ -56,13 +64,16 @@
         <button class="filter-btn" onclick="setFilter('completed', this)">Completed</button>
       </div>
 
+      <!-- Section label -->
+      <div class="section-label">Entries</div>
+
       <!-- Task List -->
       <ul id="taskList" class="task-list"></ul>
 
       <!-- Empty State -->
       <div id="emptyState" class="empty-state hidden">
-        <div class="empty-icon">☀</div>
-        <p>No tasks here. Add one above!</p>
+        <span class="empty-icon">—</span>
+        <p>No tasks here. Add one above.</p>
       </div>
 
     </main>
@@ -70,5 +81,30 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    /* Patch renderTasks to add task index numbers */
+    const _origRender = renderTasks;
+    renderTasks = function(tasks) {
+      _origRender(tasks);
+      /* Wrap stat numbers only */
+      ['totalCount','doneCount','pendingCount'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          const num = el.textContent.replace(/[^\d]/g,'');
+          el.textContent = num;
+        }
+      });
+      /* Add index numbers to task items */
+      const items = document.querySelectorAll('#taskList .task-item');
+      items.forEach((item, i) => {
+        if (!item.querySelector('.task-num')) {
+          const num = document.createElement('span');
+          num.className = 'task-num';
+          num.textContent = String(i + 1).padStart(2, '0');
+          item.insertBefore(num, item.firstChild);
+        }
+      });
+    };
+  </script>
 </body>
 </html>
